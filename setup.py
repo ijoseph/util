@@ -12,5 +12,4 @@ setuptools.setup(name='isajosep_util',
                  classifiers=['Programming Language :: Python :: 3.6',
                               'Programming Language :: Python :: 2.7'],
                  install_requires=['pandas'],
-                 packages=['isajosep_util'],
-                 python_requires='>= 2.7'])
+                 packages=['isajosep_util'],  python_requires='>= 2.7')
