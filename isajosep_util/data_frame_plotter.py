@@ -151,10 +151,10 @@ def mpl_scatter_density_from_df(x, y, cmap=plt.cm.GnBu, log_scale=False, vmin=0,
     plot_obj = ax.scatter_density(x, y, cmap=cmap, norm=norm, vmin=vmin, vmax=vmax, dpi=dpi)
 
     plot_obj.set_extent(plot_obj.get_extent())
+
     fig.colorbar(plot_obj, label='Number of points per pixel')
 
     # Add y = x line if relevant
-
     if y_eq_x_fn:
         x_plot = np.linspace(*ax.get_xlim(), num=int(1e6))
 
@@ -162,7 +162,7 @@ def mpl_scatter_density_from_df(x, y, cmap=plt.cm.GnBu, log_scale=False, vmin=0,
         ax.plot(x_plot, y_plot, linestyle='--', c='black', linewidth=0.25, label='y=x')
 
     if r_pearson:
-        plt.text(0.5, 0.4, "R²_pearson = {:.2f}".format(
+        plt.text(0.5, 0.4, "R^2_pearson = {:.2f}".format(
             scipy.stats.pearsonr(x, y)[0] ** 2),
                  horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
         # add the line
@@ -170,7 +170,7 @@ def mpl_scatter_density_from_df(x, y, cmap=plt.cm.GnBu, log_scale=False, vmin=0,
         abline(slope=slope,intercept=intercept)
 
     if r_spearman:
-        plt.text(0.5, 0.5, "R²_spearman = {:.2f}".format(
+        plt.text(0.5, 0.5, "R^2_spearman = {:.2f}".format(
             scipy.stats.spearmanr(x, y)[0] ** 2),
                  horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
 

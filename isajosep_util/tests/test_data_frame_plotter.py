@@ -44,7 +44,6 @@ class test_data_frame_plotter(TestCase):
         plt.show()
 
 
-
     def test_scatterlin(self):
         isajosep_util.data_frame_plotter.scatterlin(data=self.test_data,
                                                     test_var='indicator',
@@ -58,8 +57,6 @@ class test_data_frame_plotter(TestCase):
                                                     plot_cols='vals',
                                                     order=['one', 'two', 'three', 'four'])
         plt.show()
-
-
 
 
     def test_named_scatterlin(self):
@@ -87,6 +84,12 @@ class test_data_frame_plotter(TestCase):
         import seaborn as sns
         sns.regplot(x='vals_float', y='vals_float_ii', data=self.test_data)
         plt.show()
+
+
+    def test_mpl_scatter_no_labels(self):
+        ax, fig = isajosep_util.data_frame_plotter.mpl_scatter_density_from_df(x=self.test_data['vals_float'], y=self.test_data['vals_float_ii'], dpi=5, vmax=5)
+        plt.show()
+
 
     def test_plot_percent(self):
         isajosep_util.plot_pie_percent(0.5)

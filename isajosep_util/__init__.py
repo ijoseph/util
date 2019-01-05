@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
+
 def labeled_barplot(data, x_label, y_label, hue=None, size_inches=(5,6), make_label=True, order=None):
     import seaborn as sns
     import matplotlib.pyplot as plt
