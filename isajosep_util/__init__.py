@@ -2,19 +2,20 @@
 
 
 
-def labeled_barplot(data, x_label, y_label, hue=None, size_inches=(5,6), make_label=True, order=None):
+def labeled_barplot(data, x_label, y_label, hue=None, size_inches=(5,6), make_label=True, order=None, places=0):
     import seaborn as sns
     import matplotlib.pyplot as plt
     ax = sns.barplot(data=data, x=x_label, y=y_label, hue=hue, order=order)
     fig = plt.gcf()
     fig.set_size_inches(size_inches)
     plt.setp(ax.get_xticklabels(), rotation=90)
+    places_str = '{:,.%sf}' % places
     if make_label:
         for p in ax.patches:
             height = p.get_height()
             ax.text(p.get_x()+p.get_width()/2.,
                     height,
-                    '{:,.0f}'.format(height),
+                    places_str.format(height),
                     ha="center")
 
 
