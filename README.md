@@ -1,2 +1,2 @@
 # util
-Various utilities for `panda`  DataFrames and plotting
+Various utilities for `pandas`  DataFrames and plotting
