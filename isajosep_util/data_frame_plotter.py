@@ -182,6 +182,29 @@ def mpl_scatter_density_from_df(x, y, cmap=plt.cm.GnBu, log_scale=False, vmin=0,
     return (ax, fig)
 
 
+def add_y_eq_x(ax, y_eq_x_fn=lambda x: x):
+    x_plot = np.linspace(*ax.get_xlim(), num=int(1e6))
+
+    y_plot = y_eq_x_fn(x_plot)
+    ax.plot(x_plot, y_plot, linestyle='--', c='black', linewidth=0.25, label='y=x')
+
+
+def add_reg_line(x, y, ax, kind='perason'):
+    if kind == 'pearson':
+        plt.text(0.5, 0.4, "R^2_pearson = {:.2f}".format(
+            scipy.stats.pearsonr(x, y)[0] ** 2),
+                 horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+        # add the line
+        slope, intercept, _, _, _ = scipy.stats.linregress(x, y)
+        abline(slope=slope, intercept=intercept)
+
+
+    elif kind == 'spearman':
+        plt.text(0.5, 0.5, "R^2_spearman = {:.2f}".format(
+            scipy.stats.spearmanr(x, y)[0] ** 2),
+                 horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
+
+
 def _parse_input(data, x, y):
     if isinstance(x, str) and isinstance(y, str) and data is not None:  # symbolic, seaborn-style
         xlabel = x

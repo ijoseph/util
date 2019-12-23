@@ -6,7 +6,7 @@ from io import open
 here = os.path.abspath(os.path.dirname(__file__))
 
 setuptools.setup(name='isajosep_util',
-                 version='0.3',
+                 version='0.4',
                  description="Misc utilities",                 
                  author="Isaac Joseph",
                  classifiers=['Programming Language :: Python :: 3.6',
