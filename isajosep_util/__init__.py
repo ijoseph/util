@@ -13,15 +13,15 @@ def labeled_barplot(
         order=None,
         places=0,
         ci_colname=None,
-        relative_ci_given=True,
+        absolute_ci_given=False,
 ):
     """
 
     :param data: pd.DataFrame with one row per column of barplot :param x_label: label to give each column of barplot
     :param y_label: value for each column of barplot :param hue: :param size_inches: :param make_label: :param order:
     :param places: :param ci_colname: column name which should contain tuple of confidence intervals per x_val :param
-    relative_ci_given:  if True, ci_colname is of format ((size_of_lower_errorbar, size_of_upper_errorbar),
-    else of format ((lower_limit_of_lower_error_bar, upper_limit_of_upper_error_bar)) :return:
+    :param absolute_ci_given:  if False, ci_colname is of format ((size_of_lower_errorbar, size_of_upper_errorbar),
+    if True of format ((lower_limit_of_lower_error_bar, upper_limit_of_upper_error_bar)) :return:
     """
     data_plot = data.copy()
     import seaborn as sns
@@ -35,20 +35,20 @@ def labeled_barplot(
     if ci_colname is not None:
         assert ci_colname in data_plot, "DataFrame is missing CI column {}".format(ci_colname)
 
-        if relative_ci_given:
-            data_plot.loc[:, ci_colname + '__abs'] = data_plot.apply(
+        if absolute_ci_given:
+            data_plot.loc[:, ci_colname + '__rel'] = data_plot.apply(
                 lambda row:
                 (row[y_label] - row[ci_colname][0],
                  row[y_label] + row[ci_colname][1]),
                 axis=1,
             )
         else:
-            data_plot.rename(columns={ci_colname: ci_colname + '__abs'})
+            data_plot.rename(columns={ci_colname: ci_colname + '__rel'}, inplace=True)
 
         ax.errorbar(
             x=range(data_plot.shape[0]),
             y=data_plot[y_label],
-            yerr=data_plot[ci_colname + '__abs'].apply(pd.Series).values.T,
+            yerr=data_plot[ci_colname + '__rel'].apply(pd.Series).values.T,
             fmt='none',
             c='darkgrey',
         )

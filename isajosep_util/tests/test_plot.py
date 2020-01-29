@@ -26,6 +26,24 @@ class TestPlots(unittest.TestCase):
         plt.show()
 
     def test_labeled_barplot(self):
-        labeled_barplot(data=self.test_data, x_label='indicator', y_label='vals', ci_colname='cis')
-
+        labeled_barplot(
+            data=self.test_data,
+            x_label='indicator',
+            y_label='vals',
+            ci_colname='cis',
+            absolute_ci_given=True,
+        )
+        plt.gca().set_title('absolute_ci_given=True')
         plt.show()
+
+        labeled_barplot(
+            data=self.test_data,
+            x_label='indicator',
+            y_label='vals',
+            ci_colname='cis',
+            absolute_ci_given=False,
+        )
+        plt.gca().set_title('absolute_ci_given=False')
+        plt.show()
+
+
