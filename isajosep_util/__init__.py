@@ -10,7 +10,6 @@ def labeled_barplot(
         hue=None,
         size_inches=(5, 6),
         make_label=True,
-        order=None,
         places=0,
         ci_colname=None,
         absolute_ci_given=False,
@@ -26,7 +25,9 @@ def labeled_barplot(
     data_plot = data.copy()
     import seaborn as sns
     import matplotlib.pyplot as plt
-    ax = sns.barplot(data=data_plot, x=x_label, y=y_label, hue=hue, order=order)
+
+    data_plot.sort_values(y_label, ascending=False)
+    ax = sns.barplot(data=data_plot, x=x_label, y=y_label, hue=hue)
     fig = plt.gcf()
     fig.set_size_inches(size_inches)
     plt.setp(ax.get_xticklabels(), rotation=90)
@@ -37,9 +38,7 @@ def labeled_barplot(
 
         if absolute_ci_given:
             data_plot.loc[:, ci_colname + '__rel'] = data_plot.apply(
-                lambda row:
-                (row[y_label] - row[ci_colname][0],
-                 row[y_label] + row[ci_colname][1]),
+                lambda row: (row[y_label] - row[ci_colname][0], row[ci_colname][1] - row[y_label]),
                 axis=1,
             )
         else:

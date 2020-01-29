@@ -15,7 +15,8 @@ class TestPlots(unittest.TestCase):
             {
                 'vals': [1, 2, 3],
                 'indicator': ['one', 'two', 'three'],
-                'cis': [(0.5, 1.5), (1.5, 2.1), (0, 2)],
+                'cis': [(0.5, 1.5), (1.5, 2.1), (0, 3.5)],
+                # In relative terms, (0.5, 0.5), (0.5, 0.1), (3, 0.5).
             }
         )
 
@@ -25,7 +26,7 @@ class TestPlots(unittest.TestCase):
         isajosep_util.scaled_distplot(x=self.x_test_log, xlabel="test this")
         plt.show()
 
-    def test_labeled_barplot(self):
+    def test_labeled_barplot__absolute(self):
         labeled_barplot(
             data=self.test_data,
             x_label='indicator',
@@ -36,6 +37,7 @@ class TestPlots(unittest.TestCase):
         plt.gca().set_title('absolute_ci_given=True')
         plt.show()
 
+    def test_labeled_barplot__relative(self):
         labeled_barplot(
             data=self.test_data,
             x_label='indicator',
