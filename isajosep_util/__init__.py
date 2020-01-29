@@ -15,31 +15,40 @@ def labeled_barplot(
         ci_colname=None,
         relative_ci_given=True,
 ):
+    """
+
+    :param data: pd.DataFrame with one row per column of barplot :param x_label: label to give each column of barplot
+    :param y_label: value for each column of barplot :param hue: :param size_inches: :param make_label: :param order:
+    :param places: :param ci_colname: column name which should contain tuple of confidence intervals per x_val :param
+    relative_ci_given:  if True, ci_colname is of format ((size_of_lower_errorbar, size_of_upper_errorbar),
+    else of format ((lower_limit_of_lower_error_bar, upper_limit_of_upper_error_bar)) :return:
+    """
+    data_plot = data.copy()
     import seaborn as sns
     import matplotlib.pyplot as plt
-    ax = sns.barplot(data=data, x=x_label, y=y_label, hue=hue, order=order)
+    ax = sns.barplot(data=data_plot, x=x_label, y=y_label, hue=hue, order=order)
     fig = plt.gcf()
     fig.set_size_inches(size_inches)
     plt.setp(ax.get_xticklabels(), rotation=90)
     places_str = '{:,.%sf}' % places
 
     if ci_colname is not None:
-        assert ci_colname in data, "DataFrame is missing CI column {}".format(ci_colname)
+        assert ci_colname in data_plot, "DataFrame is missing CI column {}".format(ci_colname)
 
         if relative_ci_given:
-            data.loc[:, ci_colname + '__abs'] = data.apply(
+            data_plot.loc[:, ci_colname + '__abs'] = data_plot.apply(
                 lambda row:
                 (row[y_label] - row[ci_colname][0],
                  row[y_label] + row[ci_colname][1]),
                 axis=1,
             )
         else:
-            data.rename(columns={ci_colname: ci_colname + '__abs'})
+            data_plot.rename(columns={ci_colname: ci_colname + '__abs'})
 
         ax.errorbar(
-            x=range(data.shape[0]),
-            y=data[y_label],
-            yerr=data[ci_colname + '__abs'].apply(pd.Series).values.T,
+            x=range(data_plot.shape[0]),
+            y=data_plot[y_label],
+            yerr=data_plot[ci_colname + '__abs'].apply(pd.Series).values.T,
             fmt='none',
             c='darkgrey',
         )
